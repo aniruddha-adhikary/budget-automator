@@ -9,7 +9,7 @@ describe('dbs-sms-parser', () => {
       'If unauthorised, call +65⁭ 6339⁭6963';
     let parseResult: Transaction;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
       parseResult = await parse(contentBody);
     });
 

@@ -2,7 +2,7 @@ import {Transaction} from '../models';
 import {DateTime} from "luxon";
 
 const matcher =
-    /A card txn of (?<currency>[A-Z]{3})(?<amount>[\d.]+) from DBS\/POSB card ending 4800 to (?<merchantDetails>.*) on (?<dateString>.*) was completed.*/gi;
+    /A card txn of (?<currency>[A-Z]{3})(?<amount>[\d.]+) from DBS\/POSB card ending 4800 to (?<merchantDetails>.*) on (?<dateString>.*) was completed.*/i;
 
 function parseDate(dateString: string) {
     const dateStringWithoutTz = dateString.replace(' (SGT)', '');
@@ -10,7 +10,7 @@ function parseDate(dateString: string) {
 }
 
 export function parse(contentBody: string): Transaction {
-    const matches = (new RegExp(matcher)).exec(contentBody)?.groups;
+    const matches = matcher.exec(contentBody)?.groups;
 
     if (!matches) {
         throw new Error('Message parsing failed');
