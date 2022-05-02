@@ -27,5 +27,9 @@ describe('dbs-sms-parser', () => {
     it('should have the correct currency', () => {
       expect(parseResult).toHaveProperty('currency', 'SGD');
     });
+
+    it('should have the correct date', () => {
+      expect(parseResult).toHaveProperty('date', new Date('2022-05-01 10:36:00 +08:00'));
+    });
   });
 });
