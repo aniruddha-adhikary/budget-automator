@@ -12,7 +12,7 @@ export async function determineAccount(transaction: Pick<Transaction, 'accountEn
         return numberEndings[transaction.accountEnding];
     }
 
-    return 'DBS_CREDIT';
+    return 'DBS_DEBIT';
 }
 
 export async function addTransaction(nativeTrx: Transaction): Promise<void> {
