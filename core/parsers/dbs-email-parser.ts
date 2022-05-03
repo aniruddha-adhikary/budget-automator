@@ -57,8 +57,8 @@ function parseDate(contentBody: string): Pick<Transaction, 'date'> {
 }
 
 export function parse(contentBody: string): Partial<Transaction> {
-    if (contentBody.indexOf('We refer to your PayNow') < 0) {
-        throw new Error('Cannot parse with PayNow Parser');
+    if (contentBody.indexOf('We refer to your') < 0) {
+        throw new Error('Cannot parse with PayNow/Scan and Pay Parser');
     }
 
     const result: Partial<Transaction> = {
