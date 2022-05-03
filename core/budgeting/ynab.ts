@@ -21,7 +21,7 @@ export async function addTransaction(nativeTrx: Transaction): Promise<void> {
     const outwardMultiplier = nativeTrx.type === 'Outwards' ? -1 : 1;
 
     const transaction: SaveTransaction = {
-        amount: Math.floor(nativeTrx.amount * 10000 * outwardMultiplier),
+        amount: Math.floor(nativeTrx.amount * 1000 * outwardMultiplier),
         date: nativeTrx.date.toISOString(),
         account_id: accountId,
         memo: nativeTrx.merchantDetails,
