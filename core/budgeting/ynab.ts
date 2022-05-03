@@ -4,20 +4,19 @@ import {SaveTransaction} from "ynab/dist/api";
 
 const accessToken = process.env.YNAB_PERSONAL_ACCESS_TOKEN;
 const budgetId = process.env.YNAB_MY_BUDGET_ID;
+const accounts: Record<string, string> = JSON.parse(process.env.YNAB_ACCOUNTS || 'null');
+const endings: Record<string, string> = JSON.parse(process.env.YNAB_ENDINGS || 'null');
 
-if (!accessToken) {
-    throw new Error('YNAB_PERSONAL_ACCESS_TOKEN not found.')
-}
+export async function determineAccount(transaction: Pick<Transaction, 'accountEnding'>, numberEndings = endings) {
+    if (transaction.accountEnding && numberEndings[transaction.accountEnding]) {
+        return numberEndings[transaction.accountEnding];
+    }
 
-const ynabAPI = new ynab.API(accessToken);
-const accounts: Record<string, string> = JSON.parse(process.env.YNAB_ACCOUNTS || '-');
-
-export async function determineAccount(transaction: Transaction) {
-    return accounts['DBS_CREDIT'];
+    return 'DBS_CREDIT';
 }
 
 export async function addTransaction(nativeTrx: Transaction): Promise<void> {
-    const accountId = await determineAccount(nativeTrx);
+    const accountId = accounts[await determineAccount(nativeTrx)];
     const outwardMultiplier = nativeTrx.type === 'Outwards' ? -1 : 1;
 
     const transaction: SaveTransaction = {
@@ -31,6 +30,11 @@ export async function addTransaction(nativeTrx: Transaction): Promise<void> {
         throw new Error('YNAB_MY_BUDGET_ID not found.')
     }
 
+    if (!accessToken) {
+        throw new Error('YNAB_PERSONAL_ACCESS_TOKEN not found.')
+    }
+
+    const ynabAPI = new ynab.API(accessToken);
     const response = await ynabAPI.transactions.createTransaction(budgetId, { transaction });
 
     console.info('Added Transaction', {transaction, response})
