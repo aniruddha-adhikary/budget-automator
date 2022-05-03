@@ -1,15 +1,15 @@
-import {Transaction} from '../models';
+import {Transaction, TransactionType} from '../models';
 import {DateTime} from "luxon";
 
 const matcher =
-    /A card txn of (?<currency>[A-Z]{3})(?<amount>[\d.]+) from DBS\/POSB card ending 4800 to (?<merchantDetails>.*) on (?<dateString>.*) was completed.*/i;
+    /A card txn of (?<currency>[A-Z]{3})(?<amount>[\d.]+) from DBS\/POSB card ending (?<accountEnding>\d+) to (?<merchantDetails>.*) on (?<dateString>.*) was completed.*/i;
 
 function parseDate(dateString: string) {
     const dateStringWithoutTz = dateString.replace(' (SGT)', '');
     return DateTime.fromFormat(dateStringWithoutTz, 'dd LLL HH:mm').toJSDate();
 }
 
-export function parse(contentBody: string): Transaction {
+export function parse(contentBody: string): Partial<Transaction> {
     const matches = matcher.exec(contentBody)?.groups;
 
     if (!matches) {
@@ -17,13 +17,18 @@ export function parse(contentBody: string): Transaction {
     }
 
     const dateString = matches?.dateString;
-    const date = dateString ? parseDate(dateString) : null;
+    const date = dateString ? parseDate(dateString) : undefined;
 
-    return {
-        merchantDetails: matches?.merchantDetails || null,
-        amount: parseFloat(matches?.amount || '0') || null,
-        type: 'Outwards',
-        currency: matches?.currency || null,
+    const result: Partial<Transaction> = {
+        merchantDetails: matches?.merchantDetails,
+        amount: parseFloat(matches?.amount || '0'),
+        type: 'Outwards' as TransactionType,
+        currency: matches?.currency,
         date,
+        accountEnding: matches?.accountEnding
     };
+
+    console.info('Parsed SMS', {result});
+
+    return result;
 }

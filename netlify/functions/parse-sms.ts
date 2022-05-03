@@ -1,5 +1,7 @@
 import { Handler } from '@netlify/functions';
 import {parse} from "../../core/parsers/dbs-sms-parser";
+import {addTransaction} from "../../core/budgeting/ynab";
+import {Transaction} from "../../core/models";
 
 type RequestBody = {
     content?: string;
@@ -21,6 +23,15 @@ const handler: Handler = async (event, context) => {
     }
 
     const transaction = parse(parsedBody.content);
+
+    if (
+        transaction.merchantDetails &&
+        typeof transaction.amount !== "undefined" &&
+        transaction.date &&
+        transaction.accountEnding &&
+        transaction.currency
+    )
+        await addTransaction(transaction as Transaction);
 
     return {
         statusCode: 200,

@@ -7,7 +7,7 @@ describe('dbs-sms-parser', () => {
       'A card txn of SGD18.00 from DBS/POSB card ending 4800 ' +
       'to Grab* A-CCCCCCCC on 01 MAY 10:36 (SGT) was completed. ' +
       'If unauthorised, call +65⁭ 6339⁭6963';
-    let parseResult: Transaction;
+    let parseResult: Partial<Transaction>;
 
     beforeEach(async () => {
       parseResult = await parse(contentBody);
@@ -30,6 +30,10 @@ describe('dbs-sms-parser', () => {
 
     it('should have the correct date', () => {
       expect(parseResult).toHaveProperty('date', new Date('2022-05-01 10:36:00 +08:00'));
+    });
+
+    it('should have the correct account ending', () => {
+      expect(parseResult).toHaveProperty('accountEnding', '4800');
     });
   });
 });
