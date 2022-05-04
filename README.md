@@ -32,3 +32,6 @@ Content-Type: application/json
     }
 }
 ```
+
+## Setting up SMS Forwarding
+![IMG_0115](https://user-images.githubusercontent.com/932949/166720632-3e411990-6c79-4663-a74f-9009d32ff470.jpg)
