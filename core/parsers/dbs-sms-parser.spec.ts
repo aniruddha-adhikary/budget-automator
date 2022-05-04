@@ -70,4 +70,39 @@ describe('dbs-sms-parser', () => {
             expect(parseResult).toHaveProperty('accountEnding', '3885');
         });
     });
+    describe('should parse Scan and Pay SMS', () => {
+        const contentBody =
+            'A Scan and Pay txn of SGD3.20 from A/C ending 3885 to ' +
+            'FUJI BAKERY on 30 Apr 15:41 (SGT) was completed. ' +
+            'If unauthorised, call +65 63272265';
+
+        let parseResult: Partial<Transaction>;
+
+        beforeEach(async () => {
+            parseResult = await parse(contentBody);
+        });
+
+        it('should have the correct amount', () => {
+            expect(parseResult).toHaveProperty('amount', 3.2);
+        });
+
+        it('should have the correct merchant details', () => {
+            expect(parseResult).toHaveProperty(
+                'merchantDetails',
+                'FUJI BAKERY',
+            );
+        });
+
+        it('should have the correct currency', () => {
+            expect(parseResult).toHaveProperty('currency', 'SGD');
+        });
+
+        it('should have the correct date', () => {
+            expect(parseResult).toHaveProperty('date', new Date('2022-04-30 15:41:00 +08:00'));
+        });
+
+        it('should have the correct account ending', () => {
+            expect(parseResult).toHaveProperty('accountEnding', '3885');
+        });
+    });
 });

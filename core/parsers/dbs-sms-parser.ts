@@ -2,7 +2,7 @@ import {Transaction, TransactionType} from '../models';
 import {DateTime} from "luxon";
 
 const matchers = [
-    /A card txn of (?<currency>[A-Z]{3})(?<amount>[\d.]+) from DBS\/POSB card ending (?<accountEnding>\d+) to (?<merchantDetails>.*) on (?<dateString>.*) was completed.*/i,
+    /A (?<transactionType>.+) txn of (?<currency>[A-Z]{3})(?<amount>[\d.]+) from (?<accountType>.+) ending (?<accountEnding>\d+) to (?<merchantDetails>.*) on (?<dateString>.*) was completed/i,
     /Successful PayNow: S\$(?<amount>[\d.]+) from A\/C ending (?<accountEnding>\d+) to (?<merchantDetails>.+), (?<dateString>.*)\./i
 ];
 
