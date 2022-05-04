@@ -2,12 +2,17 @@ import { Handler } from '@netlify/functions';
 import {parse} from "../../core/parsers/dbs-email-parser";
 import {addTransaction} from "../../core/budgeting/ynab";
 import {Transaction} from "../../core/models";
+import {isAuthenticated} from "../../core/auth";
 
 type RequestBody = {
     content?: string;
 }
 
 const handler: Handler = async (event, context) => {
+    if (!isAuthenticated(event)) {
+        throw new Error("Authorization Key not valid");
+    }
+
     if (event.httpMethod !== 'POST') {
         throw new Error('Method not POST');
     }
