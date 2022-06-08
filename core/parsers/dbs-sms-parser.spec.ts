@@ -4,9 +4,10 @@ import {Transaction} from "../models";
 describe('dbs-sms-parser', () => {
     describe('should parse DBS SMS', () => {
         const contentBody =
-            'A card txn of SGD18.00 from DBS/POSB card ending 4800 ' +
-            'to Grab* A-CCCCCCCC on 01 MAY 10:36 (SGT) was completed. ' +
-            'If unauthorised, call +65⁭ 6339⁭6963';
+            'Fr DBS: A card txn of SGD18.00 from ' +
+            'DBS/POSB card ending 4800 to Grab* A-CCCCCCCC ' +
+            'on 01 MAY 10:36 (SGT) was completed. ' +
+            'If unauthorised, call DBS hotline.';
         let parseResult: Partial<Transaction>;
 
         beforeEach(async () => {
@@ -72,7 +73,7 @@ describe('dbs-sms-parser', () => {
     });
     describe('should parse Scan and Pay SMS', () => {
         const contentBody =
-            'A Scan and Pay txn of SGD3.20 from A/C ending 3885 to ' +
+            'Fr DBS: A Scan and Pay txn of SGD3.20 from A/C ending 3885 to ' +
             'FUJI BAKERY on 30 Apr 15:41 (SGT) was completed. ' +
             'If unauthorised, call +65 63272265';
 
