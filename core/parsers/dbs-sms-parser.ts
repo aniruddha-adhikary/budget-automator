@@ -39,7 +39,7 @@ export function parse(contentBody: string): Partial<Transaction> {
         type: 'Outwards' as TransactionType,
         currency: matches?.currency || 'SGD',
         date,
-        accountEnding: matches?.accountEnding
+        accountEnding: matches?.accountEnding,
     };
 
     console.info('Parsed SMS', {result});

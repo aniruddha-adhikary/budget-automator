@@ -7,4 +7,5 @@ export interface Transaction {
   type: TransactionType;
   merchantDetails: string;
   accountEnding?: string;
+  category: string | null;
 }
