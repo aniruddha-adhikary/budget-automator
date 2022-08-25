@@ -24,6 +24,7 @@ export async function addTransaction(nativeTrx: Transaction): Promise<void> {
         date: nativeTrx.date.toISOString(),
         account_id: accountId,
         memo: nativeTrx.merchantDetails,
+        category_id: nativeTrx.category_id
     };
 
     if (!budgetId) {
