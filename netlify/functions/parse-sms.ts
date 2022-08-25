@@ -31,7 +31,7 @@ const handler: Handler = async (event, context) => {
     const originalTrx = parse(parsedBody.content);
     const transaction: Partial<Transaction> = {
         ...originalTrx,
-        category: classify(originalTrx.merchantDetails)
+        category_id: classify(originalTrx.merchantDetails)
     };
 
     if (
