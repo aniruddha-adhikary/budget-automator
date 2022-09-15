@@ -66,7 +66,7 @@ export function parse(contentBody: string): Partial<Transaction> {
         ...parseMerchant(contentBody),
         ...parseDate(contentBody),
         ...parseAccountEnding(contentBody),
-        type: 'Outwards' as TransactionType,
+        type: TransactionType.Outwards,
     };
 
     console.info('Parsed PayNow Email', {result});

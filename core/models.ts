@@ -1,4 +1,7 @@
-export type TransactionType = 'Inwards' | 'Outwards';
+export enum TransactionType {
+  Inwards = 'Inwards',
+  Outwards = 'Outwards',
+};
 
 export interface Transaction {
   amount: number;

@@ -2,8 +2,8 @@ import {Transaction, TransactionType} from '../models';
 import {DateTime} from "luxon";
 
 const matchers = [
-    /An? (?<transactionType>.+) (txn )?of (?<currency>[A-Z]{3})(?<amount>[\d.]+) from (?<accountType>.+) ending (?<accountEnding>\d+) to (?<merchantDetails>.*) on (?<dateString>.*) was completed/i,
-    /Successful PayNow: S\$(?<amount>[\d.]+) from A\/C ending (?<accountEnding>\d+) to (?<merchantDetails>.+), (?<dateString>.*)\./i
+    /An? (?<transactionType>.+) (txn )?of (?<currency>[A-Z]{3})(?<amount>[\d.,]+) from (?<accountType>.+) ending (?<accountEnding>\d+) to (?<merchantDetails>.*) on (?<dateString>.*) was completed/i,
+    /Successful PayNow: S\$(?<amount>[\d.]+) from A\/C ending (?<accountEnding>\d+) to (?<merchantDetails>.+), (?<dateString>.*)\./i,
 ];
 
 function parseDate(dateString: string) {
@@ -35,8 +35,8 @@ export function parse(contentBody: string): Partial<Transaction> {
 
     const result: Partial<Transaction> = {
         merchantDetails: matches?.merchantDetails,
-        amount: parseFloat(matches?.amount || '0'),
-        type: 'Outwards' as TransactionType,
+        amount: parseFloat(matches?.amount?.replace(',', '') || '0'),
+        type: TransactionType.Outwards,
         currency: matches?.currency || 'SGD',
         date,
         accountEnding: matches?.accountEnding,
