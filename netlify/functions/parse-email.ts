@@ -3,6 +3,7 @@ import {parse} from "../../core/parsers/dbs-email-parser";
 import {addTransaction} from "../../core/budgeting/ynab";
 import {Transaction} from "../../core/models";
 import {isAuthenticated} from "../../core/auth";
+import {classify} from "../../core/classifier/transaction-classifier";
 
 type RequestBody = {
     content?: string;
@@ -27,7 +28,11 @@ const handler: Handler = async (event, context) => {
         throw new Error('SMS content is empty');
     }
 
-    const transaction = parse(parsedBody.content);
+    const originalTrx = parse(parsedBody.content);
+    const transaction: Partial<Transaction> = {
+        ...originalTrx,
+        category_id: classify(originalTrx.merchantDetails)
+    };
 
     if (
         transaction.merchantDetails &&
