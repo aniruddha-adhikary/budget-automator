@@ -53,7 +53,7 @@ const categories: Record<string, string> = {
 };
 
 const mapping: Record<string, RegExp[]> = {
-    "convenience-food": [/esso-cheers/gi, /spc/gi, /7-?eleven/gi],
+    "convenience-food": [/esso/gi, /cheers/gi, /spc/gi, /7-?eleven/gi],
     "eating-out-food": [
         /burger king/gi, /wang/gi, /texas chicken/gi, /mcdonald/gi, /kfc/gi,
         /old chang kee/gi, /esarn/gi, /food ?court/gi, /stuff'd/gi, /wok hey/gi,
