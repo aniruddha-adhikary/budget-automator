@@ -2,7 +2,7 @@ const categories: Record<string, string> = {
     "convenience-food": "212e8b46-4d5b-4aa6-afe0-9a555b8c1f5f",
     "eating-out-food": "1042e817-2b86-42c8-889e-87ff7000b480",
     "food-delivery": "3a15bb43-b9b8-4863-be3c-c2370657a876",
-    transportation: "212e8b46-4d5b-4aa6-afe0-9a555b8c1f5f",
+    transportation: "998c95fc-2eaf-4356-95a2-9002af526a75",
     groceries: "193c6135-1cd2-480c-8ade-611070e6915f",
     givingsg: "d8e931ec-cabb-4dbd-803f-9de0b011a72d",
     gym: "d5427e1a-7572-424c-98bc-0c52c079a2e5",
